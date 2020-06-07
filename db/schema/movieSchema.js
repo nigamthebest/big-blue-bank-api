@@ -1,4 +1,6 @@
-var schema = new Schema({
+var mongoose = require('mongoose');
+// Define schema
+var schema =  mongoose.Schema({
   genres: [String],
   original_language: String,
   original_title: String,
@@ -9,3 +11,4 @@ var schema = new Schema({
   tagline: String,
   title: String,
 });
+module.exports = mongoose.model("Movie", schema);
