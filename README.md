@@ -18,4 +18,11 @@ You’ll start by editing this README file to learn how to edit a file in Bitbuc
 6. Go back to the **Source** page.
 
 ---
-
+## How to Start Mongo DB as a docker image 
+1. Get Mongo Docker image **docker pull mongo**
+2. Run mongo docker image **docker run -d -p 27017-27019:27017-27019 -v mongo_data_dir:/data/db mongo**
+3. Import seed data to mango DB database by running **./init-db-sh**
+4. Connect to Mongodb to verify if data is imported **mongo mongodb://localhost/movie_db**
+5. Veify number of objects inserted in movies collection **db.movies.find().count()** this should return 2
+## How to Run the Application 
+1. 
