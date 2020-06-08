@@ -29,7 +29,7 @@ router.post("/", async (req, res) => {
     tagline: req.body.tagline,
     title: req.body.title,
   });
-  await post.save();
+  await createdMovie.save();
   res.send(createdMovie);
 });
 
