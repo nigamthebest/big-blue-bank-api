@@ -3,6 +3,7 @@ var router = express.Router();
 var Movie = require("../db/schema/movieSchema");
 var bodyParser = require("body-parser");
 var app = express();
+const { v4: uuidv4 } = require('uuid');
 app.use(bodyParser.json());
 
 /* GET users listing. */
@@ -17,6 +18,7 @@ router.get("/:title", async (req, res) => {
 
 router.post("/", async (req, res) => {
   const createdMovie = new Movie({
+    id:uuidv4(),
     title: req.body.title,
     content: req.body.content,
     genres: req.body.genres,

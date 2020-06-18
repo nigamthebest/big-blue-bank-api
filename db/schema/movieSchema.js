@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 // Define schema
-var schema =  mongoose.Schema({
+var schema = mongoose.Schema({
+  id:{ type: String, index: true, unique: true, required: true },
   genres: [String],
   original_language: String,
   original_title: String,
