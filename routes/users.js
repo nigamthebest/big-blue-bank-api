@@ -9,6 +9,7 @@ const jwt = require("jsonwebtoken");
 const e = require("express");
 const { NotExtended } = require("http-errors");
 var BCRYPT_SALT_ROUNDS = 12;
+const config = require('../config/config.js');
 app.use(bodyParser.json());
 
 router.post("/register", async (req, res) => {
@@ -26,32 +27,16 @@ router.post("/register", async (req, res) => {
       return createdUser.save();
     })
     .then(function (user) {
-      const payload = {
-        user: {
-          id: user.email_address
-        }
-      };
-
-      jwt.sign(
-        payload,
-        "randomString", {
-        expiresIn: 10000
-      },
-        (err, token) => {
-          if (err) throw err;
-          res.status(200).json({
-            token
-          });
-        }
-      ).catch (function (error) {
+      return res.status(200).json({'token': createToken(user) })
+      next();
+    }).catch(function (error) {
       console.log("Error saving user: ");
       console.log(error);
         return res.status(400).statusMessage(error.message).send();
       });
       next();
-    });
   });
-function createToken(user, res) {
+function createToken(user) {
   const payload = {
     user: {
       id: user.email_address
@@ -60,21 +45,9 @@ function createToken(user, res) {
 
   return jwt.sign(
     payload,
-    "randomString", {
-    expiresIn: 10000
-  },
-    (err, token) => {
-      if (err){
-        res.status(500).send({ message: err });
-        return;
-      }
-      res.status(200).json({
-        token
-      });
-      return;
-    }
-  
-  )
+    config.secret, {
+      expiresIn: '24h' // expires in 24 hours
+  });
 }
 
 
@@ -96,7 +69,7 @@ router.post('/login', async (req, res) => {
       if (!passwordMatch) {
         res.status(403).json({"error":"invalid User id or password"});
       }
-     createToken(user, res)
+          res.status(200).json({'token': createToken(user) })
       });        
     }
   });

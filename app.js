@@ -6,6 +6,7 @@ var mongoose = require('mongoose');
 
 var usersRouter = require('./routes/users');
 var moviesRouter = require('./routes/movies');
+var authorizationHandler = require('./handlers/authrizationHandler');
 
 //Set up default mongoose connection
 var mongoDB = 'mongodb://127.0.0.1/movie_db';
@@ -30,7 +31,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-app.use('/movies', moviesRouter);
+app.use('/movies', authorizationHandler.checkToken, moviesRouter);
 app.use('/user', usersRouter);
 
 // catch 404 and forward to error handler
