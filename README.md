@@ -1,4 +1,5 @@
-**This Is Done By Ankti Nigam as part of the Course Work for CT70A9130_15.04.2020 Software Development Skills: Back-End of LUT**
+## Author Name Ankit Nigam
+## Course CT70A9130_15.04.2020 Software Development Skills: Back-End of LUT
 **This is a Project to build REST APIs for a Movie Catalog and Review Service  Using Node JS**
 
 
