@@ -27,7 +27,7 @@ router.post("/register", async (req, res) => {
       return createdUser.save();
     })
     .then(function (user) {
-      return res.status(200).json({'token': createToken(user) })
+      return res.status(200).json({'access_token': createToken(user) })
       next();
     }).catch(function (error) {
       console.log("Error saving user: ");
@@ -69,7 +69,7 @@ router.post('/login', async (req, res) => {
       if (!passwordMatch) {
         res.status(403).json({"error":"invalid User id or password"});
       }
-          res.status(200).json({'token': createToken(user) })
+          res.status(200).json({'access_token': createToken(user) })
       });        
     }
   });

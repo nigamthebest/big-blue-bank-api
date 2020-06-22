@@ -24,11 +24,20 @@ You’ll start by editing this README file to learn how to edit a file in Bitbuc
 --header 'Content-Type: application/json' \
 --data-raw '{
     "email_address": "{Set a Unique Username}",
-    "password": "passtest123",
+    "password": "{password of your choice}",
     "first_name":"John",
     "last_name":"Smith"
 }'** this should return a JWT token response like this **{
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiYW5raXQxMjM1NjRAb3V0bG9vay5jb20ifSwiaWF0IjoxNTkyNDUxNDkwLCJleHAiOjE1OTI0NjE0OTB9.fZCUhzCJEUsvI-SryM2MUVnkOTfGR2vvmmhkuq94yMQ"
+    "access_tokenith": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiYW5raXQxMjM1NjRAb3V0bG9vay5jb20ifSwiaWF0IjoxNTkyNDUxNDkwLCJleHAiOjE1OTI0NjE0OTB9.fZCUhzCJEUsvI-SryM2MUVnkOTfGR2vvmmhkuq94yMQ"
 }**
-7. 
+7. Similarly for doing Authentication for the registered user with **curl** like this **curl --location --request POST 'localhost:3000/user/login' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "email_address": "{Username}",
+    "password": "{password of your choice}"
+}'** this should return a JWT token response like this **{
+    "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiYW5raXQxMjM1NjRAb3V0bG9vay5jb20ifSwiaWF0IjoxNTkyNDUxNDkwLCJleHAiOjE1OTI0NjE0OTB9.fZCUhzCJEUsvI-SryM2MUVnkOTfGR2vvmmhkuq94yMQ"
+}**
+7. You have to use the access_token you get from the Login or the registration API end points to call the Movie Listing end point here is how you can do it with Curl **curl --location --request GET 'http://localhost:3000/movies' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiYW5raXQxMjM1NjRAb3V0bG9vay5jb20ifSwiaWF0IjoxNTkyNDUzNTAwLCJleHAiOjE1OTI1Mzk5MDB9.z7lfNnUiVvmNBxVWr7RrP76HiOlCpW3f7LMf7TYYJC8'**
 
