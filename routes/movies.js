@@ -13,7 +13,19 @@ router.get("/", async (req, res) => {
 });
 router.get("/:title", async (req, res) => {
   const movies = await Movie.findOne({ title: req.params.title });
-  res.send(movies);
+  if(movies)
+    res.send(movies);
+  else
+    res.send(404,"Movie Not found")
+});
+
+router.delete("/:title", async (req, res) => {
+  const movies = await Movie.findOneAndRemove({ title: req.params.title }, (err) => {
+    if (err) {
+      return res.send("error", err);
+    }
+    return res.send(200, "Movie has been deleted.");
+  }).catch;
 });
 
 router.post("/", async (req, res) => {
