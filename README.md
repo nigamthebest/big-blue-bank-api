@@ -43,4 +43,6 @@ You’ll start by editing this README file to learn how to edit a file in Bitbuc
 }**
 7. You have to use the access_token you get from the Login or the registration API end points to call the Movie Listing end point here is how you can do it with Curl **curl --location --request GET 'http://localhost:3000/movies' \
 --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiYW5raXQxMjM1NjRAb3V0bG9vay5jb20ifSwiaWF0IjoxNTkyNDUzNTAwLCJleHAiOjE1OTI1Mzk5MDB9.z7lfNnUiVvmNBxVWr7RrP76HiOlCpW3f7LMf7TYYJC8'**
+8. You can also DELETE a Movie from the Catalog you can do it by title like this **curl --location --request DELETE 'localhost:3000/movies/48 Hrs.' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiYW5raXQxMjM1NjRAb3V0bG9vay5jb20ifSwiaWF0IjoxNTkyOTk5MDkzLCJleHAiOjE1OTMwODU0OTN9.FugC_rBjAQAzwuj-fayxrzEreLG4OZwOfvOjFdz7SJ8'** the response should be **200 Movie has been deleted.*
 
