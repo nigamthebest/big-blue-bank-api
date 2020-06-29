@@ -25,7 +25,11 @@ router.delete("/:title", async (req, res) => {
       return res.send("error", err);
     }
     return res.send(200, "Movie has been deleted.");
-  }).catch;
+  }).catch(function (error) {
+    console.log("Error Deleting Movie: ");
+    console.log(error);
+      return res.status(400).statusMessage(error.message).send();
+    });
 });
 
 router.post("/", async (req, res) => {
