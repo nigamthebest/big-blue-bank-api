@@ -2,6 +2,7 @@ var express = require("express");
 var router = express.Router();
 var Movie = require("../db/schema/movieSchema");
 var bodyParser = require("body-parser");
+var authorizationHandler = require('../handlers/authrizationHandler');
 var app = express();
 const { v4: uuidv4 } = require('uuid');
 app.use(bodyParser.json());
@@ -19,7 +20,7 @@ router.get("/:title", async (req, res) => {
     res.send(404,"Movie Not found")
 });
 
-router.delete("/:title", async (req, res) => {
+router.delete("/:title", authorizationHandler.checkToken, async (req, res) => {
   const movies = await Movie.findOneAndRemove({ title: req.params.title }, (err) => {
     if (err) {
       return res.send("error", err);
@@ -32,7 +33,7 @@ router.delete("/:title", async (req, res) => {
     });
 });
 
-router.post("/", async (req, res) => {
+router.post("/", authorizationHandler.checkToken, async (req, res) => {
   const createdMovie = new Movie({
     id:uuidv4(),
     title: req.body.title,

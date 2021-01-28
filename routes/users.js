@@ -11,9 +11,13 @@ const { NotExtended } = require("http-errors");
 var BCRYPT_SALT_ROUNDS = 12;
 const config = require('../config/config.js');
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 
 router.post("/register", async (req, res) => {
   var password = req.body.password;
+  console.log("password ==============================================   "+ password)
   bcrypt
     .hash(password, BCRYPT_SALT_ROUNDS)
     .then(function (hashedPassword) {

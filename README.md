@@ -18,9 +18,9 @@ In this Project I have used [express.js](https://expressjs.com/) framework for t
 
 You’ll start by editing this README file to learn how to edit a file in Bitbucket.
 
-1. Clone the Repo **git clone https://ankitnig@bitbucket.org/ankitnig/ankit-nigam-course-work-for-sw-dev-backend.git** on the local machine.
+1. Clone the Repo **git clone https://github.com/nigamthebest/movie-apis.git** on the local machine.
 2. Ensure you have **node** and **npm** installed on the machine
-3. Go to the directory **cd ankit-nigam-course-work-for-sw-dev-backend** using terminal
+3. Go to the directory **cd movie-apis** using terminal
 4. Run **npm install** this should install all the required dependencies
 5. Run **npm start** this should start the application this will start the application rnning on **http://localhost:3000/movies**
 6. To Test User registration and Login you can hit the application with **curl** like this **curl --location --request POST 'localhost:3000/user/register' \
