@@ -1,6 +1,6 @@
 var express = require("express");
 var router = express.Router();
-var bcrypt = require("bcrypt");
+var bcrypt = require("bcryptjs");
 const { v4: uuidv4 } = require('uuid');
 var User = require("../db/schema/userSchema");
 var bodyParser = require("body-parser");

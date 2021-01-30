@@ -6,10 +6,14 @@ var mongoose = require('mongoose');
 
 var usersRouter = require('./routes/users');
 var moviesRouter = require('./routes/movies');
+var swaggerRouter = require('./routes/swaggerDoc');
+const swaggerUi = require('swagger-ui-express');
+const swaggerJsdoc = require("swagger-jsdoc");
+//const swaggerDocument = require('./swagger.json');
 
 
 //Set up default mongoose connection
-var mongoDB = 'mongodb://mongo:27017/mongo-test';
+var mongoDB = "mongodb://mongo:27017/mongo-test";
 mongoose.connect(mongoDB, { useNewUrlParser: true });
 
 //Get the default connection
@@ -33,6 +37,39 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/movies',  moviesRouter);
 app.use('/user', usersRouter);
+const options = {
+  definition: {
+    openapi: "3.0.0",
+    info: {
+      title: "LogRocket Express API with Swagger",
+      version: "0.1.0",
+      description:
+        "This is a simple CRUD API application made with Express and documented with Swagger",
+      license: {
+        name: "MIT",
+        url: "https://spdx.org/licenses/MIT.html",
+      },
+      contact: {
+        name: "LogRocket",
+        url: "https://logrocket.com",
+        email: "info@email.com",
+      },
+    },
+    servers: [
+      {
+        url: "http://localhost:3000/moview",
+      },
+    ],
+  },
+  apis: ["./routes/movies.js"],
+};
+
+const specs = swaggerJsdoc(options);
+app.use(
+  "/api-docs",
+  swaggerUi.serve,
+  swaggerUi.setup(specs)
+);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
