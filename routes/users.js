@@ -17,7 +17,6 @@ app.use(bodyParser.urlencoded({
 
 router.post("/register", async (req, res) => {
   var password = req.body.password;
-  console.log("password ==============================================   "+ password)
   bcrypt
     .hash(password, BCRYPT_SALT_ROUNDS)
     .then(function (hashedPassword) {
@@ -32,18 +31,16 @@ router.post("/register", async (req, res) => {
     })
     .then(function (user) {
       return res.status(200).json({'access_token': createToken(user) })
-      next();
     }).catch(function (error) {
       console.log("Error saving user: ");
       console.log(error);
         return res.status(400).statusMessage(error.message).send();
       });
-      next();
   });
 function createToken(user) {
   const payload = {
     user: {
-      id: user.email_address
+      id: user.id
     }
   };
 

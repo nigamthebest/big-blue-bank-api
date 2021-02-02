@@ -3,9 +3,10 @@ var express = require('express');
 var path = require('path');
 var logger = require('morgan');
 var mongoose = require('mongoose');
+const contextService = require('request-context');
 
 var usersRouter = require('./routes/users');
-var moviesRouter = require('./routes/movies');
+var accountRouter = require('./routes/account');
 var swaggerRouter = require('./routes/swaggerDoc');
 const swaggerUi = require('swagger-ui-express');
 const swaggerJsdoc = require("swagger-jsdoc");
@@ -13,7 +14,7 @@ const swaggerJsdoc = require("swagger-jsdoc");
 
 
 //Set up default mongoose connection
-var mongoDB = "mongodb://mongo:27017/mongo-test";
+var mongoDB = "mongodb://mongo:27017/bank-schema";
 mongoose.connect(mongoDB, { useNewUrlParser: true });
 
 //Get the default connection
@@ -32,45 +33,20 @@ app.set('view engine', 'jade');
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(contextService.middleware('request'));
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-app.use('/movies',  moviesRouter);
+app.use('/account',  accountRouter);
 app.use('/user', usersRouter);
-const options = {
-  definition: {
-    openapi: "3.0.0",
-    info: {
-      title: "LogRocket Express API with Swagger",
-      version: "0.1.0",
-      description:
-        "This is a simple CRUD API application made with Express and documented with Swagger",
-      license: {
-        name: "MIT",
-        url: "https://spdx.org/licenses/MIT.html",
-      },
-      contact: {
-        name: "LogRocket",
-        url: "https://logrocket.com",
-        email: "info@email.com",
-      },
-    },
-    servers: [
-      {
-        url: "http://localhost:3000/moview",
-      },
-    ],
-  },
-  apis: ["./routes/movies.js"],
-};
 
-const specs = swaggerJsdoc(options);
+const swaggerDocument = require('./swagger.json');
 app.use(
   "/api-docs",
   swaggerUi.serve,
-  swaggerUi.setup(specs)
+  
+  swaggerUi.setup(swaggerDocument, { explorer: true })
 );
-
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));

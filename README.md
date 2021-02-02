@@ -1,5 +1,4 @@
 ## Author Ankit Nigam
-## Course CT70A9130_15.04.2020 Software Development Skills: Back-End of LUT
 **This is a Project to build REST APIs for a Movie Catalog and Review Service  Using Node JS**
 
 
@@ -22,7 +21,7 @@ You’ll start by editing this README file to learn how to edit a file in Bitbuc
 2. Ensure you have **node** and **npm** installed on the machine
 3. Go to the directory **cd movie-apis** using terminal
 4. Run **npm install** this should install all the required dependencies
-5. Run **npm start** this should start the application this will start the application rnning on **http://localhost:3000/movies**
+5. Run **npm start** this should start the application this will start the application rnning on **http://localhost:3000/account**
 6. To Test User registration and Login you can hit the application with **curl** like this **curl --location --request POST 'localhost:3000/user/register' \
 --header 'Content-Type: application/json' \
 --data-raw '{

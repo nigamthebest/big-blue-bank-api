@@ -1,23 +1,23 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "LogRocket Express API with Swagger",
+        "title": "Big Blue bank APIs",
         "version": "0.1.0",
         "description":
-        "This is a simple CRUD API application made with Express and documented with Swagger",
+        "This is a sample CRUD API for Accounts and Users documented with Swagger",
         "license": {
             "name": "MIT",
             "url": "https://spdx.org/licenses/MIT.html"
       },
       "contact": {
-        "name": "LogRocket",
-        "url": "https://logrocket.com",
+        "name": "bigbluebank.com",
+        "url": "https://bigbluebank.com",
         "email": "info@email.com"
       }
     },
     "servers": [
       {
-        "url": "http://localhost:3000/books"
+        "url": "http://localhost:3000/accounts"
       }
     ]
   }
