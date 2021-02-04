@@ -10,13 +10,16 @@ app.use(bodyParser.json());
 
 /* GET users listing. */
 router.get("/", authorizationHandler.checkToken, async (req, res) => {
-  const accountList = await accountSchema.find({userId:contextService.get('request:decodedToken.user.id')});
-  res.send(accountList);
+  const accountList = await accountSchema.find({ userId: contextService.get('request:decodedToken.user.id') });
+  let response = { "accountList": accountList }
+  res.send(response);
 });
 router.get("/:id", async (req, res) => {
   const accountList = await accountSchema.findOne({ title: req.params.id });
-  if (accountList)
+
+  if (accountList) {
     res.send(accountList);
+  }
   else
     res.send(404, "Account Not found")
 });
