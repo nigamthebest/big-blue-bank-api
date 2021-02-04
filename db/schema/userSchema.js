@@ -9,4 +9,11 @@ var userSchema = mongoose.Schema({
   last_name: { type: String }
 });
 userSchema.plugin(uniqueValidator);
+userSchema.set('toJSON', {
+  virtuals: true,
+  transform: function(doc, ret) {
+      delete ret._id;
+      delete ret.__v;
+  }
+});
 module.exports = mongoose.model("User", userSchema);

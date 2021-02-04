@@ -9,4 +9,11 @@ var schema = mongoose.Schema({
   country: String,
   kycStatus: Boolean
 });
+schema.set('toJSON', {
+  virtuals: true,
+  transform: function(doc, ret) {
+      delete ret._id;
+      delete ret.__v;
+  }
+});
 module.exports = mongoose.model("Account", schema);

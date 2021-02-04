@@ -2,7 +2,7 @@ var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var logger = require('morgan');
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
 const contextService = require('request-context');
 
 var usersRouter = require('./routes/users');
@@ -11,6 +11,16 @@ var swaggerRouter = require('./routes/swaggerDoc');
 const swaggerUi = require('swagger-ui-express');
 const swaggerJsdoc = require("swagger-jsdoc");
 //const swaggerDocument = require('./swagger.json');
+mongoose.plugin((schema) => {
+  schema.options.toJSON = {
+    virtuals: true,
+    versionKey: false,
+    transform(doc, ret) {
+      ret.id = ret._id;
+      delete ret._id;
+    }
+  };
+});
 
 
 //Set up default mongoose connection
