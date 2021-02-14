@@ -1,7 +1,7 @@
 version: "2"
 services:
   app:
-    container_name: movie-api-app
+    container_name: big-blue-bank-api-app
     restart: always
     build: .
     ports:
