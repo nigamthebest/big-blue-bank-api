@@ -2,9 +2,9 @@
     "openapi": "3.0.0",
     "info": {
         "title": "Big Blue bank APIs",
-        "version": "0.1.0",
+        "version": "1.0.0",
         "description":
-        "This is a sample CRUD API for Accounts and Users documented with Swagger",
+        "This is a sample CRUD API for Accounts and Users ",
         "license": {
             "name": "MIT",
             "url": "https://spdx.org/licenses/MIT.html"
@@ -17,7 +17,7 @@
     },
     "servers": [
       {
-        "url": "http://localhost:3000/accounts"
+        "url": "http://localhost:3000"
       }
     ]
   }

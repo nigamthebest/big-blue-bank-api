@@ -8,7 +8,13 @@ var app = express();
 const { v4: uuidv4 } = require('uuid');
 app.use(bodyParser.json());
 
-/* GET users listing. */
+/**
+ * @swagger
+ * /accounts:
+ *   get:
+ *     summary: Retrieve a list of JSONPlaceholder users
+ *     description: Retrieve a list of users from JSONPlaceholder. Can be used to populate a list of fake users when prototyping or testing an API.
+*/
 router.get("/", authorizationHandler.checkToken, async (req, res) => {
   const accountList = await accountSchema.find({ userId: contextService.get('request:decodedToken.user.id') });
   let response = { "accountList": accountList }
