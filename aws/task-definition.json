@@ -9,25 +9,6 @@
     ],
     "containerDefinitions": [
         {
-            "name": "mongo",
-            "image": "mongo:3.6",
-            "logConfiguration": {
-                "logDriver": "awslogs",
-                "options": {
-                    "awslogs-group": "/ecs/mongo",
-                    "awslogs-region": "us-east-1",
-                    "awslogs-stream-prefix": "mongo"
-                }
-            },
-            "portMappings": [
-                {
-                    "containerPort": 27017,
-                    "protocol": "tcp"
-                }
-            ],
-            "essential": true
-        },
-        {
             "name": "bank_backend",
             "image": "860928392976.dkr.ecr.us-east-1.amazonaws.com/big-blue-bank:latest",
             "logConfiguration": {
@@ -44,15 +25,7 @@
                     "protocol": "tcp"
                 }
             ],
-            "essential": true,
-            "dependsOn": [
-                {
-                    "containerName": "mongo",
-                    "condition": "START"
-                }
-            ]
-
+            "essential": true
         }
-        
     ]
 }

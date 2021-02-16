@@ -11,7 +11,6 @@ let checkToken = (req, res, next) => {
   }
 
   if (token) {
-    console.log(token)
     jwt.verify(token, config.secret, (err, decoded) => {
       if (err) {
         return res.json({
@@ -19,7 +18,6 @@ let checkToken = (req, res, next) => {
           message: 'Token is not valid'
         });
       } else {
-        console.log(decoded);
         req.decoded = decoded;
         contextService.set('request:decodedToken', decoded);
         next();

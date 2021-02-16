@@ -12,16 +12,3 @@ services:
         awslogs-group: bank_backend
         awslogs-region: us-east-1
         awslogs-stream-prefix: bank_backend
-    depends_on:
-      - "mongo"
-  mongo:
-    container_name: mongo
-    image: mongo:3.6
-    ports:
-      - "27017:27017"
-    logging:
-      driver: awslogs
-      options:
-        awslogs-group: bank_db
-        awslogs-region: us-east-1
-        awslogs-stream-prefix: bank_db
