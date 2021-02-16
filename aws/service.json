@@ -1,0 +1,20 @@
+{
+    "serviceName": "bank_backend",
+    "launchType": "FARGATE",
+    "loadBalancers": [
+        {
+            "targetGroupArn": "arn:aws:elasticloadbalancing:us-east-1:860928392976:targetgroup/bank-backend-tg/bba407f862eaa780",
+            "containerName": "bank_backend",
+            "containerPort": 3000
+        }
+    ],
+    "desiredCount": 2,
+    "cluster": "arn:aws:ecs:us-east-1:860928392976:cluster/bank_backend_cluster",
+    "deploymentConfiguration": {
+        "maximumPercent": 200,
+        "minimumHealthyPercent": 50
+    },
+    "healthCheckGracePeriodSeconds": 2,
+    "schedulingStrategy": "REPLICA",
+    "taskDefinition": "arn:aws:ecs:us-east-1:860928392976:task-definition/bank_backend:1"
+}

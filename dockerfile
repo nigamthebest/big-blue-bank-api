@@ -1,4 +1,4 @@
-FROM node:14
+FROM node:buster-slim
 # Create app directory
 WORKDIR /usr/src/app
 # Install app dependencies
@@ -9,5 +9,5 @@ RUN npm install
 COPY . .
 
 #Expose port and start application
-EXPOSE 3000
+EXPOSE 80
 CMD [ "npm", "start" ]

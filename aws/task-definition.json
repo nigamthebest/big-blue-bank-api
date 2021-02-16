@@ -1,0 +1,58 @@
+{
+    "family": "bank_backend",
+    "executionRoleArn": "arn:aws:iam::860928392976:role/ecsTaskExecutionRole",
+    "networkMode": "awsvpc",
+    "cpu": "256",
+    "memory": "512",
+    "requiresCompatibilities": [
+        "FARGATE"
+    ],
+    "containerDefinitions": [
+        {
+            "name": "mongo",
+            "image": "mongo:3.6",
+            "logConfiguration": {
+                "logDriver": "awslogs",
+                "options": {
+                    "awslogs-group": "/ecs/mongo",
+                    "awslogs-region": "us-east-1",
+                    "awslogs-stream-prefix": "mongo"
+                }
+            },
+            "portMappings": [
+                {
+                    "containerPort": 27017,
+                    "protocol": "tcp"
+                }
+            ],
+            "essential": true
+        },
+        {
+            "name": "bank_backend",
+            "image": "860928392976.dkr.ecr.us-east-1.amazonaws.com/big-blue-bank:latest",
+            "logConfiguration": {
+                "logDriver": "awslogs",
+                "options": {
+                    "awslogs-group": "/ecs/bank_backend",
+                    "awslogs-region": "us-east-1",
+                    "awslogs-stream-prefix": "ecs"
+                }
+            },
+            "portMappings": [
+                {
+                    "containerPort": 3000,
+                    "protocol": "tcp"
+                }
+            ],
+            "essential": true,
+            "dependsOn": [
+                {
+                    "containerName": "mongo",
+                    "condition": "START"
+                }
+            ]
+
+        }
+        
+    ]
+}

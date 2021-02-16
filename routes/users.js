@@ -2,52 +2,53 @@ var express = require("express");
 var router = express.Router();
 var bcrypt = require("bcryptjs");
 const { v4: uuidv4 } = require('uuid');
-var User = require("../db/schema/userSchema");
-var bodyParser = require("body-parser");
-var app = express();
+
 const jwt = require("jsonwebtoken");
-const e = require("express");
 const { NotExtended } = require("http-errors");
 var BCRYPT_SALT_ROUNDS = 12;
 const config = require('../config/config.js');
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
-  extended: true
-}));
+
+// create application/x-www-form-urlencoded parser
+
+
+const NodeCache = require("node-cache");
+const userStore = new NodeCache({ stdTTL: 3000, checkperiod: 800 });
 
 router.post("/register", async (req, res) => {
+
   var password = req.body.password;
-  bcrypt
-    .hash(password, BCRYPT_SALT_ROUNDS)
-    .then(function (hashedPassword) {
-      const createdUser = new User({
-        id: uuidv4(),
-        email_address: req.body.email_address,
-        password: hashedPassword,
-        first_name: req.body.first_name,
-        last_name: req.body.last_name,
-      });
-      return createdUser.save();
-    })
-    .then(function (user) {
-      return res.status(200).json({'access_token': createToken(user) })
-    }).catch(function (error) {
-      console.log("Error saving user: ");
-      console.log(error);
-        return res.status(400).statusMessage(error.message).send();
-      });
-  });
-function createToken(user) {
+  var email_address = req.body.email_address;
+  let hashedPassword = bcrypt.hash(password, BCRYPT_SALT_ROUNDS);
+
+  const userId = uuidv4();
+  const createdUser = {
+    id: userId,
+    email_address: req.body.email_address,
+    password: hashedPassword,
+    first_name: req.body.first_name,
+    last_name: req.body.last_name,
+  };
+  if (userStore.has(email_address)) {
+    console.log("Error saving user: ");
+    console.log(error);
+     res.status(403).json({ "error": error });
+  }
+  userStore.set(userId, createdUser);
+  userStore.set(email_address, userId);
+   res.status(200).json({ 'access_token': createToken(userId) })
+
+});
+function createToken(userId) {
   const payload = {
     user: {
-      id: user.id
+      id: userId
     }
   };
 
   return jwt.sign(
     payload,
     config.secret, {
-      expiresIn: '24h' // expires in 24 hours
+    expiresIn: '24h' // expires in 24 hours
   });
 }
 
@@ -55,25 +56,20 @@ function createToken(user) {
 router.post('/login', async (req, res) => {
   var email_address = req.body.email_address;
   var password = req.body.password;
-  User.findOne({
-    'email_address': email_address
-  }).exec((err, user) => {
-    if (err) {
-      res.status(500).json({ message: err });
-      return;
-    }
-    if (user) {
-      console.log(user)
-      bcrypt.compare(password, user.password).
-        then(function (passwordMatch) { 
-      console.log(passwordMatch)
-      if (!passwordMatch) {
-        res.status(403).json({"error":"invalid User id or password"});
-      }
-          res.status(200).json({'access_token': createToken(user) })
-      });        
-    }
-  });
+  let userExist = userStore.has(email_address)
+  if (userExist) {
+    let user = userStore.get(userStore.get(email_address))
+    console.log(user)
+    bcrypt.compare(password, user.password).
+      then(function (passwordMatch) {
+        console.log(passwordMatch)
+        if (!passwordMatch) {
+          res.status(403).json({ "error": "invalid User id or password" });
+        }
+        res.status(200).json({ 'access_token': createToken(user) })
+      });
+  } else
+    res.status(403).json({ "error": "invalid User id or password" });
 });
 
-  module.exports = router;
+module.exports = router;

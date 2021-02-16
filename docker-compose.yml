@@ -1,15 +1,27 @@
-version: "2"
+version: "3"
 services:
-  app:
-    container_name: big-blue-bank-api-app
+  web:
+    container_name: bank_backend
+    image: 860928392976.dkr.ecr.us-east-1.amazonaws.com/big-blue-bank:latest
     restart: always
-    build: .
     ports:
       - "3000:3000"
+    logging:
+      driver: awslogs
+      options:
+        awslogs-group: bank_backend
+        awslogs-region: us-east-1
+        awslogs-stream-prefix: bank_backend
     depends_on:
-      - mongo
+      - "mongo"
   mongo:
     container_name: mongo
-    image: mongo
+    image: mongo:3.6
     ports:
       - "27017:27017"
+    logging:
+      driver: awslogs
+      options:
+        awslogs-group: bank_db
+        awslogs-region: us-east-1
+        awslogs-stream-prefix: bank_db
