@@ -18,7 +18,7 @@ router.post("/register", async (req, res) => {
 
   var password = req.body.password;
   var email_address = req.body.email_address;
-  let hashedPassword = bcrypt.hash(password, BCRYPT_SALT_ROUNDS);
+  let hashedPassword = await bcrypt.hash(password, BCRYPT_SALT_ROUNDS);
 
   const userId = uuidv4();
   const createdUser = {
@@ -30,12 +30,13 @@ router.post("/register", async (req, res) => {
   };
   if (userStore.has(email_address)) {
     console.log("Error saving user: ");
-    console.log(error);
-     res.status(403).json({ "error": error });
+
+    res.status(403).json({ "error": "Email Alredy Exists" });
+  } else {
+    userStore.set(userId, createdUser);
+    userStore.set(email_address, userId);
+    res.status(200).json({ 'accessToken': createToken(userId) })
   }
-  userStore.set(userId, createdUser);
-  userStore.set(email_address, userId);
-   res.status(200).json({ 'access_token': createToken(userId) })
 
 });
 function createToken(userId) {
@@ -59,15 +60,13 @@ router.post('/login', async (req, res) => {
   let userExist = userStore.has(email_address)
   if (userExist) {
     let user = userStore.get(userStore.get(email_address))
-    console.log(user)
-    bcrypt.compare(password, user.password).
-      then(function (passwordMatch) {
-        console.log(passwordMatch)
-        if (!passwordMatch) {
-          res.status(403).json({ "error": "invalid User id or password" });
-        }
-        res.status(200).json({ 'access_token': createToken(user) })
-      });
+
+    let passwordMatch = await bcrypt.compare(password, user.password);
+    if (!passwordMatch) {
+      res.status(403).json({ "error": "invalid User id or password" });
+    }
+    res.status(200).json({ 'accessToken': createToken(user.id) })
+
   } else
     res.status(403).json({ "error": "invalid User id or password" });
 });

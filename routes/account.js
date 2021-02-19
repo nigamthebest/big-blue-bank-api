@@ -102,7 +102,7 @@ router.post("/transactions/:accountId", authorizationHandler.checkToken, (req, r
   } else {
     let newTransactionList = [];
     newTransactionList.push(transactionId)
-    accountStore.set(accountId, newTransactionList)
+    transactionStore.set(accountId, newTransactionList)
   }
   res.status(201).json(createdTransaction);
 });
