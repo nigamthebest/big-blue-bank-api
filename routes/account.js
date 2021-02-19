@@ -7,46 +7,6 @@ const NodeCache = require("node-cache");
 const accountStore = new NodeCache({ stdTTL: 3000, checkperiod: 800 });
 const transactionStore = new NodeCache({ stdTTL: 3000, checkperiod: 800 });
 
-/**
- * @swagger
- * /account:
- *   get:
- *     summary: Retrieve a list of accounts for the authenticated user.
- *     description: Retrieve a list of accounts from the DB based on the user info in the access token.
- *     responses:
- *       200:
- *         description: A list of accounts.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 accountList:
- *                   type: array
- *                   items:
- *                     type: object
- *                     properties:
- *                       id:
- *                         type: string
- *                         description: The unique id of the account.
- *                         example: acb11393-feb3-406e-8cae-cc7a45005f1f
- *                       userId:
- *                         type: string
- *                         description: The id of the account owber.
- *                         example: ebc2229a-c609-4249-ac79-bffaf24305a1
- *                       accountType:
- *                         type: string
- *                         description: Type of the account Saving or current.
- *                         example: Saving
- *                       balance:
- *                         type: float
- *                         description: balance in the account.
- *                         example: 100.00
- *                       country:
- *                         type: string
- *                         description: Country code.
- *                         example: US
- */
 router.get("/", authorizationHandler.checkToken, async (req, res) => {
   const userId = contextService.get('request:decodedToken.user.id');
   const accountExitForUser = accountStore.has(userId);
@@ -86,6 +46,10 @@ router.delete("/:id", authorizationHandler.checkToken, async (req, res) => {
   }
   res.status(200).json({ "message": "Account is Deleted" });
 });
+
+
+
+
 
 router.post("/", authorizationHandler.checkToken, (req, res) => {
   let accountId = uuidv4();
